@@ -55,7 +55,7 @@ func sortArray2(c echo.Context) error {
 		}
 	}
 
-	for i, _ := range u.Unsorted {
+	for i := range u.Unsorted {
 		for i2, val2 := range u.Unsorted {
 			if (i + 1) == val2 {
 				u.Unsorted = move(i2, i, u.Unsorted)
