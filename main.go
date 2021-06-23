@@ -129,11 +129,9 @@ func deleteUser(c echo.Context) error {
 func main() {
 	e := echo.New()
 
-	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	// Routes
 	e.POST("/users", createUser)
 	e.POST("/sort", sortArray)
 	e.POST("/sort2", sortArray2)
@@ -141,6 +139,5 @@ func main() {
 	e.PUT("/users/:id", updateUser)
 	e.DELETE("/users/:id", deleteUser)
 
-	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
 }
