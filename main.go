@@ -30,6 +30,19 @@ var (
 	users = map[int]*user{}
 )
 
+func removeDuplicateValues(slice []int) []int {
+	keys := make(map[int]bool)
+	list := []int{}
+
+	for _, entry := range slice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
+}
+
 func sortArray(c echo.Context) error {
 	u := new(inputUnsort)
 	if err := c.Bind(u); err != nil {
@@ -48,16 +61,15 @@ func sortArray2(c echo.Context) error {
 		return err
 	}
 
-	max := u.Unsorted[0]
-	for _, value := range u.Unsorted {
-		if value > max {
-			max = value
-		}
-	}
+	sliceClean := removeDuplicateValues(u.Unsorted)
+	sort.Ints(sliceClean)
 
 	for i := range u.Unsorted {
+		if i >= len(sliceClean) {
+			break
+		}
 		for i2, val2 := range u.Unsorted {
-			if (i + 1) == val2 {
+			if sliceClean[i] == val2 {
 				u.Unsorted = move(i2, i, u.Unsorted)
 				break
 			}
